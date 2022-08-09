@@ -1,20 +1,19 @@
 import { useState } from "react";
-import { useEffect } from "react";
-import { getMovies } from "../services/service";
+import { IMovie } from "../models/IMovie";
+import { HandleMovies } from "./HandleMovies";
+import { UserSearch } from "./UserSearch";
 
 export const Movies = () => {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<IMovie[]>([]);
 
-  useEffect(() => {
-    fetchMovies();
-  }),
-    [movies];
+  function showMovies(movies: IMovie[]) {
+    setMovies(movies);
+  }
 
-  const fetchMovies = async () => {
-    const movieData = await getMovies();
-    console.log(movieData);
-    setMovies(movieData);
-  };
-
-  return <div className="movies">hej</div>;
+  return (
+    <>
+      <UserSearch showMovies={showMovies}></UserSearch>
+      <HandleMovies movies={movies} showMovies={showMovies}></HandleMovies>
+    </>
+  );
 };
